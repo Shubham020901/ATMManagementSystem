@@ -11,7 +11,6 @@ public class atmAccounts {
     private List<String> transactionHistory;
 	public atmAccounts(String holderName) {
 		super();
-//		this.accountNumber = UUID.randomUUID().toString().substring(0, 8);
 		this.accountNumber = getAccountNumber();
 		this.holderName = holderName;
 		this.balance = 0.0;
