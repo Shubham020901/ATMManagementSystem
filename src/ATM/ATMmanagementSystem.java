@@ -6,140 +6,139 @@ import java.util.Scanner;
 
 public class ATMmanagementSystem {
 	
-	private static List<atmAccounts> accounts = new ArrayList<>();
+	private static List<ATMAccounts> accounts = new ArrayList<>();
+    private static Scanner sc = new Scanner(System.in);
 
-    public static String createAccount(String holderName) {
-        atmAccounts newAccount = new atmAccounts(holderName);
+    public static void createAccount(String holderName, String accountNumber) {
+        ATMAccounts newAccount = new ATMAccounts(holderName, accountNumber);
         accounts.add(newAccount);
-        return newAccount.getAccountNumber();
+        System.out.println("Account created successfully" + accountNumber);
     }
 
-	 
-	
-    public static atmAccounts findAccount(String accountNumber) {
-        for (atmAccounts account : accounts) {
+    public static ATMAccounts findAccount(String accountNumber) {
+        for (ATMAccounts account : accounts) {
             if (account.getAccountNumber().equals(accountNumber)) {
                 return account;
             }
         }
         return null;
     }
+
     public static void deposit(String accountNumber, double amount) {
-        atmAccounts account = findAccount(accountNumber);
+        ATMAccounts account = findAccount(accountNumber);
         if (account != null) {
             account.addTransaction("Deposited: " + amount);
             account.setBalance(account.getBalance() + amount);
-            System.out.println("Amount deposited successfully.");
+            System.out.println("Amount deposited successfully");
         } else {
-            System.out.println("Account not found.");
+            System.out.println("Account not found");
         }
     }
 
     public static void withdraw(String accountNumber, double amount) {
-        atmAccounts account = findAccount(accountNumber);
+        ATMAccounts account = findAccount(accountNumber);
         if (account != null) {
             if (account.getBalance() >= amount) {
-                account.addTransaction("Withdrawn: " + amount);
+                account.addTransaction("Withdrawl: " + amount);
                 account.setBalance(account.getBalance() - amount);
-                System.out.println("Amount withdrawn successfully.");
+                System.out.println("Amount withdrawl successfully");
             } else {
-                System.out.println("Insufficient balance.");
+                System.out.println("Insufficient balance in Your Account");
             }
         } else {
-            System.out.println("Account not found.");
+            System.out.println("Account not found so please Enter Correct Account Number");
         }
     }
 
     public static void checkBalance(String accountNumber) {
-        atmAccounts account = findAccount(accountNumber);
+        ATMAccounts account = findAccount(accountNumber);
         if (account != null) {
             System.out.println("Account Balance: " + account.getBalance());
         } else {
-            System.out.println("Account not found.");
+            System.out.println("Account not found so please Enter Correct Account Number");
         }
     }
 
     public static void printTransactionHistory(String accountNumber) {
-        atmAccounts account = findAccount(accountNumber);
+        ATMAccounts account = findAccount(accountNumber);
         if (account != null) {
             System.out.println("Transaction History:");
             for (String transaction : account.getTransactionHistory()) {
                 System.out.println(transaction);
             }
         } else {
-            System.out.println("Account not found.");
+            System.out.println("Account not found so please Enter Correct Account Number");
         }
     }
 
     public static void listAccounts() {
-        for (atmAccounts account : accounts) {
+        for (ATMAccounts account : accounts) {
             System.out.println(account);
         }
     }
+
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Scanner sc =new Scanner(System.in);
 		while (true) {
             System.out.println("Welcome to the ATM Interface Management System:");
-            System.out.println("1. Create Account:");
-            System.out.println("2. Deposited Amount:");
-            System.out.println("3. Withdrawl Amount:");
-            System.out.println("4. Check Balance:");
-            System.out.println("5. Print the Transaction History:");
+            System.out.println("1. Create Account");
+            System.out.println("2. Deposit Amount");
+            System.out.println("3. Withdraw Amount");
+            System.out.println("4. Check Balance");
+            System.out.println("5. Print the Transaction History");
             System.out.println("6. List of Accounts");
             System.out.println("7. Exit");
-            System.out.println("Thnk You For Your Response!!!");
+            System.out.println("Thank You For Your Response!!!");
             System.out.print("Enter your choice: ");
 
             int choice = sc.nextInt();
             sc.nextLine();
-           
-
+            
             switch (choice) {
                 case 1:
                     System.out.print("Enter holder name: ");
                     String name = sc.nextLine();
-                    String accountNumber = createAccount(name);
-                    System.out.println("Account created successfully");
-                    System.out.println("Your account number is:" + accountNumber);
+                    System.out.print("Enter account number: ");
+                //    String accountNo = sc.nextLine();
+                    String accountNumber = sc.nextLine();
+                    createAccount(name, accountNumber);
                     break;
                 case 2:
                     System.out.print("Enter account number: ");
-                    String accountNo = sc.nextLine();
+                    accountNumber = sc.nextLine();
                     System.out.print("Enter amount to deposit: ");
                     double depositAmount = Double.parseDouble(sc.nextLine());
-                    deposit(accountNo, depositAmount);
-                    System.out.println("Amount Deposietd Successfully");
+                    deposit(accountNumber, depositAmount);
                     break;
                 case 3:
                     System.out.print("Enter account number: ");
-                    accountNo = sc.nextLine();
+                    accountNumber = sc.nextLine();
                     System.out.print("Enter amount to withdraw: ");
                     double withdrawAmount = Double.parseDouble(sc.nextLine());
-                    withdraw(accountNo, withdrawAmount);
+                    withdraw(accountNumber, withdrawAmount);
                     break;
                 case 4:
                     System.out.print("Enter account number: ");
-                    accountNo = sc.nextLine();
-                    checkBalance(accountNo);
+                    accountNumber = sc.nextLine();
+                    checkBalance(accountNumber);
                     break;
                 case 5:
                     System.out.print("Enter account number: ");
-                    accountNo = sc.nextLine();
-                    printTransactionHistory(accountNo);
+                    accountNumber = sc.nextLine();
+                    printTransactionHistory(accountNumber);
                     break;
                 case 6:
                     listAccounts();
                     break;
                 case 7:
                     System.out.println("Exit");
+                    sc.close();
                     System.exit(0);
                 default:
-                    System.out.println("Please Enter the correct Choice");
+                    System.out.println("Please enter the correct choice:");
                     break;
             }
         }
-    
 	}
+
 
 }
